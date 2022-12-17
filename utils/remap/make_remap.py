@@ -6,11 +6,15 @@ def o(path):
 def gen_mapping(f, name_index, name_rows=True):
     start_row = 1 if name_rows else 0
     id2name, name2id = {}, {}
-    for id, l in enumerate(f.readlines()[start_row:]):
+    count = 0
+    for i, l in enumerate(f.readlines()[start_row:]):
         ts = l.split(',')
         name = ts[name_index]
-        id2name[id] = name
-        name2id[name] = id
+        id = count
+        if not name in name2id:
+            id2name[id] = name
+            name2id[name] = id
+            count += 1
     return id2name, name2id
 
 def out_pkl(data, path):
@@ -19,7 +23,7 @@ def out_pkl(data, path):
 if __name__ == "__main__":
 
     users_path = "../../hahow/data/users.csv"
-    courses_path = "../../hahow/data/courses.csv"
+    courses_path = "../../hahow/data/course_chapter_items.csv" # doesn't use course.csv cuz it's dirty
     subgroups_path = "../../hahow/data/subgroups.csv"
 
     user_meta = o(users_path)
