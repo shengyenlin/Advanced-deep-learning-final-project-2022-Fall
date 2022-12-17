@@ -1,3 +1,7 @@
+import os
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+
 ################# General tool #################
 import pickle
 
@@ -30,7 +34,7 @@ def get_remaps(_type):
         _type = "subgroup"
     elif _type == "u":
         _type = "user"
-    return load_pkl(f"./remap/{_type}_id2name.pkl"), load_pkl(f"./remap/{_type}_name2id.pkl")
+    return load_pkl(os.path.join(dname, f"remap/{_type}_id2name.pkl")), load_pkl(os.path.join(dname, f"remap/{_type}_name2id.pkl"))
 
 ################# Prediction #################
 
@@ -46,4 +50,4 @@ def get_test_userlist(seen=True):
     user_list: list()
     """
     seen_or_not = "seen" if seen else "unseen"
-    return load_pkl(f"./inference/{seen_or_not}_users_list.pkl")
+    return load_pkl(os.path.join(dname, f"inference/{seen_or_not}_users_list.pkl"))
