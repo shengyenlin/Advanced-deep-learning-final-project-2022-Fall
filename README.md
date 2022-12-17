@@ -10,3 +10,6 @@
 
 TODO:
 - set up common environment
+
+## Shared data
+- [Google Cloud - shared data](https://drive.google.com/drive/folders/1g16qbUM4daiEbHD-JbtEMerF3-LfNkPm?usp=share_link)
