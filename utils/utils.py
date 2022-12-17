@@ -32,7 +32,10 @@ def get_remaps(_type):
         _type = "user"
     return load_pkl(f"./remap/{_type}_id2name.pkl"), load_pkl(f"./remap/{_type}_name2id.pkl")
 
-################# Inference #################
+################# Prediction #################
+
+pred_header = "user_id,course_id\n"
+pred_gheader = "user_id,subgroup\n"
 
 def get_test_userlist(seen=True):
     """
