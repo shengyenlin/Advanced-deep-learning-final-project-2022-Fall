@@ -1,4 +1,6 @@
-from utils.utils import *
+import sys
+sys.path.append("../utils")
+from utils import *
 import torch
 from torch import Tensor
 import argparse
@@ -38,8 +40,8 @@ if __name__ == "__main__":
     seen, unseen = get_test_userlist(True), get_test_userlist(False)
 
     for i, t in enumerate(tasks):
-        user_path = f"../embeds/user_lgn-hahow_{t}-{args.l}-{args.d}.emb.pkl"
-        item_path = f"../embeds/item_lgn-hahow_{t}-{args.l}-{args.d}.emb.pkl"
+        user_path = f"../embeds/user_lgn-hahow_{t}-{args.layer}-{args.dim}.emb.pkl"
+        item_path = f"../embeds/item_lgn-hahow_{t}-{args.layer}-{args.dim}.emb.pkl"
         user_embed = Tensor(load_pkl(user_path))
         item_embed = Tensor(load_pkl(item_path))
         ratings = torch.matmul(user_embed, item_embed.t())
