@@ -51,3 +51,8 @@ def get_test_userlist(seen=True):
     """
     seen_or_not = "seen" if seen else "unseen"
     return load_pkl(os.path.join(dname, f"inference/{seen_or_not}_users_list.pkl"))
+
+################# Hot #################
+
+course2hot = load_pkl(os.path.join(dname, "hot/course2hot.pkl"))
+group2hotcourses = load_pkl(os.path.join(dname, "hot/group2hotcourses.pkl"))
