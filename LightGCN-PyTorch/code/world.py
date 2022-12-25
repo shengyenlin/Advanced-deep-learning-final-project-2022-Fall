@@ -12,6 +12,7 @@ import torch
 from enum import Enum
 from parse import parse_args
 import multiprocessing
+import pickle
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 args = parse_args()
@@ -48,6 +49,9 @@ config['A_split'] = False
 config['bigdata'] = False
 # my config
 config['weight'] = args.w
+if args.pretrain != 0:
+    config['user_emb'] = pickle.load(open(args.user_emb, 'rb'))
+    config['item_emb'] = pickle.load(open(args.item_emb, 'rb'))
 
 GPU = torch.cuda.is_available()
 device = torch.device('cuda' if GPU else "cpu")
