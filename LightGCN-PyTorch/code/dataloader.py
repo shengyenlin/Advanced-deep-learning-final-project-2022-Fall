@@ -232,6 +232,8 @@ class Loader(BasicDataset):
         self.m_item = 0
         train_file = path + '/train.txt'
         test_file = path + '/test.txt'
+        user_file = path + '/user_list.txt'
+        item_file = path + '/item_list.txt'
         self.path = path
         trainUniqueUsers, trainItem, trainUser = [], [], []
         testUniqueUsers, testItem, testUser = [], [], []
@@ -247,8 +249,8 @@ class Loader(BasicDataset):
                     trainUniqueUsers.append(uid)
                     trainUser.extend([uid] * len(items))
                     trainItem.extend(items)
-                    self.m_item = max(self.m_item, max(items))
-                    self.n_user = max(self.n_user, uid)
+                    #self.m_item = max(self.m_item, max(items))
+                    #self.n_user = max(self.n_user, uid)
                     self.traindataSize += len(items)
         self.trainUniqueUsers = np.array(trainUniqueUsers)
         self.trainUser = np.array(trainUser)
@@ -263,9 +265,15 @@ class Loader(BasicDataset):
                     testUniqueUsers.append(uid)
                     testUser.extend([uid] * len(items))
                     testItem.extend(items)
-                    self.m_item = max(self.m_item, max(items))
-                    self.n_user = max(self.n_user, uid)
+                    #self.m_item = max(self.m_item, max(items))
+                    #self.n_user = max(self.n_user, uid)
                     self.testDataSize += len(items)
+        with open(item_file) as f:
+            ls = f.readlines()
+            self.m_item = int((ls[-1].split(' '))[1])
+        with open(user_file) as f:
+            ls = f.readlines()
+            self.n_user = int((ls[-1].split(' '))[1])
         self.m_item += 1
         self.n_user += 1
         self.testUniqueUsers = np.array(testUniqueUsers)
