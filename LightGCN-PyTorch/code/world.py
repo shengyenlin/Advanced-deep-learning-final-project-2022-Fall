@@ -13,11 +13,13 @@ from enum import Enum
 from parse import parse_args
 import multiprocessing
 import pickle
+from pathlib import Path
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 args = parse_args()
 
-ROOT_PATH = "/tmp2/yzliu/git/blockchain/LightGCN-PyTorch"
+abspath = Path(os.path.abspath(__file__))
+ROOT_PATH = abspath.parent.parent.absolute()
 CODE_PATH = join(ROOT_PATH, 'code')
 DATA_PATH = join(ROOT_PATH, 'data')
 BOARD_PATH = join(CODE_PATH, 'runs')
