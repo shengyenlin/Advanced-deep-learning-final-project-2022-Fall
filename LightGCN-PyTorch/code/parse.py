@@ -45,6 +45,7 @@ def parse_args():
     parser.add_argument('--model', type=str, default='lgn', help='rec-model, support [mf, lgn]')
     # my args
     parser.add_argument('-w', type=str, help="for pred")
+    parser.add_argument('--cos', action='store_true')
     parser.add_argument('--user_emb', type=str, help="user pretrain")
     parser.add_argument('--item_emb', type=str, help="item pretrain")
     return parser.parse_args()

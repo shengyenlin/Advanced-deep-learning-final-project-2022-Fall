@@ -96,6 +96,7 @@ class LightGCN(BasicModel):
         self.n_layers = self.config['lightGCN_n_layers']
         self.keep_prob = self.config['keep_prob']
         self.A_split = self.config['A_split']
+        self.cos = self.config['cos']
         self.embedding_user = torch.nn.Embedding(
             num_embeddings=self.num_users, embedding_dim=self.latent_dim)
         # For homogeneous graph setting
@@ -179,12 +180,18 @@ class LightGCN(BasicModel):
         all_users, all_items = self.computer()
         users_emb = all_users[users.long()]
         items_emb = all_items
+        if self.cos:
+            users_emb = users_emb / users_emb.norm(dim=-1)[:, None]
+            items_emb = items_emb / items_emb.norm(dim=-1)[:, None]
         rating = self.f(torch.matmul(users_emb, items_emb.t()))
         return rating
     def getAllUsersRating(self):
         all_users, all_items = self.computer()
         users_emb = all_users
         items_emb = all_items
+        if self.cos:
+            users_emb = users_emb / users_emb.norm(dim=-1)[:, None]
+            items_emb = items_emb / items_emb.norm(dim=-1)[:, None]
         rating = self.f(torch.matmul(users_emb, items_emb.t()))
         return rating
     
@@ -204,6 +211,10 @@ class LightGCN(BasicModel):
         reg_loss = (1/2)*(userEmb0.norm(2).pow(2) + 
                          posEmb0.norm(2).pow(2)  +
                          negEmb0.norm(2).pow(2))/float(len(users))
+        if self.cos:
+            users_emb = users_emb / users_emb.norm(dim=-1)[:, None]
+            pos_emb = pos_emb / pos_emb.norm(dim=-1)[:, None]
+            neg_emb = neg_emb / neg_emb.norm(dim=-1)[:, None]
         pos_scores = torch.mul(users_emb, pos_emb)
         pos_scores = torch.sum(pos_scores, dim=1)
         neg_scores = torch.mul(users_emb, neg_emb)
@@ -220,6 +231,9 @@ class LightGCN(BasicModel):
         #all_users, all_items = self.computer()
         users_emb = all_users[users]
         items_emb = all_items[items]
+        if self.cos:
+            users_emb = users_emb / users_emb.norm(dim=-1)[:, None]
+            items_emb = items_emb / items_emb.norm(dim=-1)[:, None]
         inner_pro = torch.mul(users_emb, items_emb)
         gamma     = torch.sum(inner_pro, dim=1)
         return gamma

@@ -18,6 +18,7 @@ from tqdm import tqdm
 import model
 import multiprocessing
 from sklearn.metrics import roc_auc_score
+from my_utils.metrics import mapk
 
 
 CORES = multiprocessing.cpu_count() // 2
@@ -61,15 +62,17 @@ def test_one_batch(X):
     sorted_items = X[0].numpy()
     groundTrue = X[1]
     r = utils.getLabel(groundTrue, sorted_items)
-    pre, recall, ndcg = [], [], []
+    pre, recall, ndcg, map= [], [], [], []
     for k in world.topks:
         ret = utils.RecallPrecision_ATk(groundTrue, r, k)
         pre.append(ret['precision'])
         recall.append(ret['recall'])
         ndcg.append(utils.NDCGatK_r(groundTrue,r,k))
+        map.append(mapk(groundTrue, r, k))
     return {'recall':np.array(recall), 
             'precision':np.array(pre), 
-            'ndcg':np.array(ndcg)}
+            'ndcg':np.array(ndcg),
+            'map':np.array(map)}
         
             
 def Test(dataset, Recmodel, epoch, w=None, multicore=0):
@@ -84,7 +87,8 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0):
         pool = multiprocessing.Pool(CORES)
     results = {'precision': np.zeros(len(world.topks)),
                'recall': np.zeros(len(world.topks)),
-               'ndcg': np.zeros(len(world.topks))}
+               'ndcg': np.zeros(len(world.topks)),
+               'map': np.zeros(len(world.topks))}
     with torch.no_grad():
         users = list(testDict.keys())
         try:
@@ -136,9 +140,11 @@ def Test(dataset, Recmodel, epoch, w=None, multicore=0):
             results['recall'] += result['recall']
             results['precision'] += result['precision']
             results['ndcg'] += result['ndcg']
+            results['map'] += result['map']
         results['recall'] /= float(len(users))
         results['precision'] /= float(len(users))
         results['ndcg'] /= float(len(users))
+        results['map'] /= float(len(pre_results))
         # results['auc'] = np.mean(auc_record)
         if world.tensorboard:
             w.add_scalars(f'Test/Recall@{world.topks}',

@@ -50,6 +50,7 @@ config['pretrain'] = args.pretrain
 config['A_split'] = False
 config['bigdata'] = False
 # my config
+config['cos'] = args.cos
 config['weight'] = args.w
 if args.pretrain != 0:
     config['user_emb'] = pickle.load(open(args.user_emb, 'rb'))
