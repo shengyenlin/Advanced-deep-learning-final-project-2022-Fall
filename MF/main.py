@@ -34,10 +34,10 @@ if __name__ == '__main__':
 		pred_data = cf_model(args, new_train_data, new_test_data)
 		upload_data = create_upload_data(user_col, item_col, pred_data)
 		ui = 'user' if args.cf_user_based else 'item'
-		if args.task.find('group'):
-			group = '_group'
-		else:
+		if args.task == 'train':
 			group = ''
+		else:
+			group = '_group'
 		upload_data.to_csv(f'./cf_{args.cf_distance}_{ui}_{args.eval}{group}.csv', index=False)
 		print('Create predict data successfully')
 
@@ -50,10 +50,10 @@ if __name__ == '__main__':
 
 		pred_data = mf_model(args, new_train_data, new_test_data)
 		upload_data = create_upload_data(user_col, item_col, pred_data)
-		if args.task.find('group'):
-			group = '_group'
-		else:
+		if args.task == 'train':
 			group = ''
+		else:
+			group = '_group'
 		upload_data.to_csv(f'./mf_{args.eval}{group}.csv', index=False)
 		print('Create predict data successfully')
 
