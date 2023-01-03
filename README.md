@@ -45,6 +45,7 @@ Metric: public seen / unseen mapk@50
 
 ```bash
 # TODO: add everyone's download bash file
+bash log_reg_download.sh
 ```
 
 ## Directory layout
@@ -54,9 +55,11 @@ Metric: public seen / unseen mapk@50
 ## Reproduce best result of each competition
 ```bash
 # TODO:
-# bash logistic_regression.bash 
+bash logistic_regression.bash 
 # bash light_GCN.bash
+# bash ALS.bash
 # bash ensemble.bash
+# upload code
 ```
 
 
@@ -70,6 +73,3 @@ Metric: public seen / unseen mapk@50
 # TODO:
 
 ```
-
-## Shared data
-- [Google Cloud - shared data](https://drive.google.com/drive/folders/1g16qbUM4daiEbHD-JbtEMerF3-LfNkPm?usp=share_link)
