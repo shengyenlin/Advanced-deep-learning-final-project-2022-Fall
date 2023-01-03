@@ -49,6 +49,9 @@ try:
             Procedure.Test(dataset, Recmodel, epoch, w, world.config['multicore'])
             output_information = Procedure.BPR_train_original(dataset, Recmodel, bpr, epoch, neg_k=Neg_k,w=w)
             print(f'EPOCH[{epoch+1}/{world.TRAIN_epochs}] {output_information}')
+            if not world.config['store_once']:
+                torch.save(Recmodel.state_dict(), weight_file.replace(".pth.tar", f"_{epoch+1}ep.pth.tar"))
+        if world.config['store_once'] and (epoch+1) == world.TRAIN_epochs:
             torch.save(Recmodel.state_dict(), weight_file.replace(".pth.tar", f"_{epoch+1}ep.pth.tar"))
 finally:
     if world.tensorboard:

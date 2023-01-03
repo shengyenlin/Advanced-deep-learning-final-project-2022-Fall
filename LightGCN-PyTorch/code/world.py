@@ -52,6 +52,8 @@ config['bigdata'] = False
 # my config
 config['cos'] = args.cos
 config['weight'] = args.w
+config['users'] = args.users
+config['store_once'] = args.store_once
 if args.pretrain != 0:
     config['user_emb'] = pickle.load(open(args.user_emb, 'rb'))
     config['item_emb'] = pickle.load(open(args.item_emb, 'rb'))
