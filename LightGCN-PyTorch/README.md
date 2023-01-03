@@ -2,7 +2,7 @@
 ## LightGCN-pytorch
 ### Reproduce
 #### Download
-
+Download embeddings encoded by Sbert.
 ```bash
 cd code
 ./download_sbert.sh
