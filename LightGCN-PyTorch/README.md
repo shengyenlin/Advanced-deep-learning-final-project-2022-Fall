@@ -21,6 +21,7 @@ cd code
 #### Assemble score
 
 ```bash
+cd code
 ./run_hahow_all_assemble_score.sh
 ```
 
