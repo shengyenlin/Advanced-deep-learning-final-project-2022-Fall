@@ -1,4 +1,5 @@
 import os
+import numpy as np
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 
@@ -52,7 +53,6 @@ def get_test_userlist(seen=True):
     seen_or_not = "seen" if seen else "unseen"
     return load_pkl(os.path.join(dname, f"inference/{seen_or_not}_users_list.pkl"))
 
-################# Hot #################
-
-course2hot = load_pkl(os.path.join(dname, "hot/course2hot.pkl"))
-group2hotcourses = load_pkl(os.path.join(dname, "hot/group2hotcourses.pkl"))
+def compute_cos_sim(a, b):
+    cos_sim = np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+    return cos_sim 

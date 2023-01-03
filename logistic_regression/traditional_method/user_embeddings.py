@@ -1,12 +1,17 @@
 import pandas as pd
 import numpy as np
 
+from sklearn.impute import KNNImputer
+
 import fasttext
 import fasttext.util
 
-def load_ft_model():
-    fasttext.util.download_model('zh', if_exists='ignore')
-    ft = fasttext.load_model('cc.zh.300.bin')
+def load_ft_model(ft_path):
+    # fasttext.util.download_model('zh', if_exists='ignore')
+    try:
+        ft = fasttext.load_model(ft_path)
+    except:
+        ft = fasttext.load_model('./logistic_regression/FastText/cc.zh.300.bin')
     return ft
 
 def create_gender_embbeding(user_df):
@@ -167,8 +172,8 @@ def create_recreation_embed(user_df, ft, embed_size=300):
     return rec_embed
 
 
-def create_user_embed(user_df):
-    ft = load_ft_model()
+def create_user_embed(user_df, ft_path, do_knn_impute=False, knn_neighbors=10):
+    ft = load_ft_model(ft_path)
 
     # one hot
     gender_embed = create_gender_embbeding(user_df)
@@ -184,4 +189,13 @@ def create_user_embed(user_df):
         axis=1
     )
 
-    return user_embed
+    if do_knn_impute:
+        user_embed = user_embed.astype('float')
+        # 0 to nan
+        user_embed[user_embed==0] = np.nan
+        imputer = KNNImputer(n_neighbors=knn_neighbors)
+        imputer.fit_transform(user_embed)
+    else:
+        imputer = None
+
+    return user_embed, imputer
