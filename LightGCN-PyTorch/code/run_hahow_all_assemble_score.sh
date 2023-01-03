@@ -38,4 +38,4 @@ python hahow_write_assemble_score.py --decay=1e-4 --lr=0.001 --layer=${layer} --
 
 python hahow_merge_assemble_score.py
 
-cp ./assemble/lgn_{course,group}_score.dict.pkl ../../ensemble
+cp ./assemble/lgn_{course,group}_score.dict.pkl ../../ensemble/data
