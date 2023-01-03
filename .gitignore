@@ -5,6 +5,5 @@ cc.zh.300.bin.gz
 logistic_regression/cache/*
 logistic_regression/best_models/*
 logistic_regression/traditional_method/experiment/*
-NN/*
-*.joblib
 *.pkl
+*.joblib

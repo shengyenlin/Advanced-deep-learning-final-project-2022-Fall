@@ -38,7 +38,8 @@ Metric: public seen / unseen mapk@50
 ## Environment
 
 ```bash
-# TODO: set up common environment
+# TODO: set up environment for each model
+conda env create -f env_logistic_regression.yml
 ```
 
 ## Downlaod files
@@ -54,8 +55,8 @@ bash log_reg_download.sh
 
 ## Reproduce best result of each competition
 ```bash
-# TODO:
-bash logistic_regression.bash 
+conda activate logistic_regression && bash logistic_regression.bash
+# TODO: 
 # bash light_GCN.bash
 # bash ALS.bash
 # bash ensemble.bash
