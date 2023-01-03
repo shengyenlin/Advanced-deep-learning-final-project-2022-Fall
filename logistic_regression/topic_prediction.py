@@ -33,10 +33,10 @@ def parse_args() -> Namespace:
         default=DATA_ROOT,
     )
     parser.add_argument(
-        "--cache_dir",
+        "--experiment_dir",
         type=Path,
         help="Directory to save the model file.",
-        default="./traditional_method/cache",
+        default="./logistic_regression/traditional_method/experiment",
     )
     parser.add_argument(
         "--sbert_dir",
@@ -58,6 +58,7 @@ def parse_args() -> Namespace:
     )
 
     # inference settings
+    parser.add_argument("--cache_dir", type=Path)
     parser.add_argument("--seen_model_path", type=Path)
     parser.add_argument("--unseen_model_path", type=Path)
     parser.add_argument("--out_dir", type=Path, help="output directory during testing")
@@ -149,12 +150,14 @@ def insert_data(user_id_list, X_empty, userid2embed):
     return X_empty
 
 def main(args):
+    print("Start to do topic prediction!")
     args_dict = vars(args)
     run_id = int(time.time())
     date = datetime.date.today().strftime("%m%d")
     print(f"Run id = {run_id}")
-    cache_dir = args.cache_dir / 'topic' /str(date) / str(run_id)
-    Path(cache_dir).mkdir(parents=True, exist_ok=True)
+    if args.mode == 'train':
+        experiment_dir = args.experiment_dir / 'topic' /str(date) / str(run_id)
+        Path(experiment_dir).mkdir(parents=True, exist_ok=True)
 
     # read user info
     user_df = pd.read_csv(
@@ -305,7 +308,7 @@ def main(args):
             X_unseen_val = normalizer.transform(X_unseen_val)
 
         else:
-            normalizer = joblib.load(args.normalizer_path)
+            normalizer = joblib.load(args.cache_dir / 'log_reg_train_normalizer.pkl')
         X_seen_test = normalizer.transform(X_seen_test)
         X_unseen_test = normalizer.transform(X_unseen_test)
 
@@ -426,16 +429,16 @@ def main(args):
 
         joblib.dump(
             seen_best_model, 
-            os.path.join(cache_dir, 'category_seen_model.joblib')
+            os.path.join(experiment_dir, 'category_seen_model.joblib')
             )
 
         joblib.dump(
             unseen_best_model, 
-            os.path.join(cache_dir, 'category_unseen_model.joblib')
+            os.path.join(experiment_dir, 'category_unseen_model.joblib')
             )
     else:
-        seen_best_model = joblib.load(args.seen_model_path)
-        unseen_best_model = joblib.load(args.unseen_model_path)
+        seen_best_model = joblib.load(args.cache_dir / 'topic_seen_model.joblib')
+        unseen_best_model = joblib.load(args.cache_dir / 'topic_unseen_model.joblib')
     # TODO: store best params, seen and unseen mapk
 
     # testing
@@ -455,23 +458,23 @@ def main(args):
     unseen_df = post_process_label_to_df(test_unseen_df, y_unseen_pred)
 
     ################## File output ######################
-    if args.mode == 'test':
-        cache_dir = args.out_dir
     seen_df.to_csv(
-        os.path.join(cache_dir, 'log_reg_pred_seen_topic.csv'), 
+        os.path.join(args.out_dir, 'log_reg_pred_seen_topic.csv'), 
         index=False
         )
 
     unseen_df.to_csv(
-        os.path.join(cache_dir, 'log_reg_pred_unseen_topic.csv'), 
+        os.path.join(args.out_dir, 'log_reg_pred_unseen_topic.csv'), 
         index=False
         )
 
-    with open(os.path.join(cache_dir, 'log_reg_topic_user_prob_dict.pkl'), 'wb') as f:
+    with open(os.path.join(args.out_dir, 'lg_group_score.dict.pkl'), 'wb') as f:
         pickle.dump(user_dict, f)
     ###################################################
+    print("Finish topic prediction")
 
 if __name__ == '__main__':
     args = parse_args()
-    args.cache_dir.mkdir(parents=True, exist_ok=True)
+    if args.mode == 'train':
+        args.experiment_dir.mkdir(parents=True, exist_ok=True)
     main(args)

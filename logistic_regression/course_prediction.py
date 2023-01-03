@@ -15,13 +15,12 @@ from sklearn.model_selection import ParameterGrid
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 
-
 from traditional_method.constants import DATA_ROOT
 from traditional_method.user_embeddings import create_user_embed
 from traditional_method.preprocess import remove_nan_in_group_df, make_multiple_hard_labels, process_gt_int_arr_to_str_arr, load_pkl, read_sbert_embed
 from traditional_method.postprocess import process_pred_int_arr_to_str_arr_course, course_to_topic
 from traditional_method.metrics import mapk
-from utils.utils import compute_cos_sim
+from traditional_method.utils import compute_cos_sim
 
 RANDOM_SEED = 1234
 TOP_K = 50
@@ -47,22 +46,22 @@ def parse_args() -> Namespace:
         default=DATA_ROOT
     )
     parser.add_argument(
-        "--cache_dir",
+        "--experiment_dir",
         type=Path,
         help="Directory to save the model file.",
-        default="./traditional_method/cache",
+        default="./logistic_regression/traditional_method/experiment",
     )
 
     parser.add_argument(
         "--map_dir",
         type=Path,
         help="Directory to mapping files",
-        default='./utils/remap'
+        default='../utils/remap'
     )
     parser.add_argument(
         "--sbert_dir",
         type=Path,
-        default='./utils/sbert'
+        default='../utils/sbert'
     )
 
     parser.add_argument(
@@ -72,19 +71,13 @@ def parse_args() -> Namespace:
         default='train'
     )
 
-    parser.add_argument(
-        "--normalizer_path",
-        type=Path,
-        help="normalizer stored during training phase and will be used in inference phase"
-    )
-
     # inference settings
-    parser.add_argument("--seen_model_path", type=Path)
-    parser.add_argument("--unseen_model_path", type=Path)
+    parser.add_argument("--cache_dir", type=Path)
     parser.add_argument("--out_dir", type=Path, help="output directory during testing")
     parser.add_argument("--ft_path", type=Path, help="path to FastText bin")
 
     # data
+    parser.add_argument("--remove_nan", action='store_true')
     parser.add_argument("--normalize_feature", action='store_true')
     parser.add_argument("--use_sbert_interaction", action='store_true')
     parser.add_argument("--cos_sim_interaction", action='store_true')
@@ -158,16 +151,19 @@ def insert_data(user_id_list, X_empty, userid2embed):
     return X_empty
 
 def main(args):
+    print("Start to do course prediction!")
     args_dict = vars(args)
     run_id = int(time.time())
     date = datetime.date.today().strftime("%m%d")
     print(f"Run id = {run_id}")
-    cache_dir = args.cache_dir / 'course' / str(date) / str(run_id)
-    Path(cache_dir).mkdir(parents=True, exist_ok=True)
+    if args.mode == 'train':
+        experiment_dir = args.experiment_dir / 'course' / str(date) / str(run_id)
+        Path(experiment_dir).mkdir(parents=True, exist_ok=True)
+
 
     # read user info
     user_df = pd.read_csv(
-        os.path.join(DATA_ROOT, 'users.csv')
+        os.path.join(args.data_dir, 'users.csv')
     )
 
     # read train, valid, test file
@@ -191,6 +187,8 @@ def main(args):
         val_topic_unseen_df = pd.read_csv(
             os.path.join(args.data_dir, 'val', 'val_unseen_group.csv')
         )
+    
+    
 
     test_seen_df = pd.read_csv(
         os.path.join(args.data_dir, 'test', 'test_seen.csv')
@@ -213,7 +211,7 @@ def main(args):
 
     # embedding preprocess
     userid2embed = dict()
-    user_embed, _ = create_user_embed(user_df)
+    user_embed, _ = create_user_embed(user_df, args.ft_path)
 
     if args.use_sbert_interaction:
         # read sbert embed
@@ -257,7 +255,12 @@ def main(args):
         # start from 0
         id2coursename, coursename2id = \
             dict(zip(ids, course_names)), dict(zip(course_names, ids))
-        
+
+        # with open('id2coursename.pkl', 'wb') as f:
+        #     pickle.dump(id2coursename, f)
+        # with open('coursename2id.pkl', 'wb') as f:
+        #     pickle.dump(coursename2id, f)
+        # return 
         purchase_record_labels = [int(coursename2id[course_name]) for course_name in purchase_record_labels]
         print("Finish label preprocessing")
 
@@ -299,6 +302,11 @@ def main(args):
                 X_unseen_val,
                 userid2embed
                 )   
+    else:
+        with open(args.cache_dir / 'id2coursename.pkl', 'rb') as f:
+            id2coursename = pickle.load(f)
+        with open(args.cache_dir / 'coursename2id.pkl', 'rb') as f:
+            coursename2id = pickle.load(f)
 
     X_seen_test = np.zeros((test_seen_df.shape[0], user_embed.shape[1]))
     X_unseen_test = np.zeros((test_unseen_df.shape[0], user_embed.shape[1]))
@@ -322,7 +330,7 @@ def main(args):
             X_seen_val = normalizer.transform(X_seen_val)
             X_unseen_val = normalizer.transform(X_unseen_val)
         else:
-            normalizer = joblib.load(args.normalizer_path)
+            normalizer = joblib.load(args.cache_dir / 'log_reg_train_normalizer.pkl')
         X_seen_test = normalizer.transform(X_seen_test)
         X_unseen_test = normalizer.transform(X_unseen_test)
 
@@ -467,8 +475,8 @@ def main(args):
             )
 
     else:
-        seen_best_model = joblib.load(args.seen_model_path)
-        unseen_best_model = joblib.load(args.unseen_model_path)        
+        seen_best_model = joblib.load(args.cache_dir / 'course_seen_model.joblib')
+        unseen_best_model = joblib.load(args.cache_dir / 'course_unseen_model.joblib')        
 
     # TODO: store best params, seen and unseen mapk
     # testing
@@ -490,19 +498,19 @@ def main(args):
 
     courses_seen_df = post_process_to_df(test_seen_df, y_courses_seen_pred, col='course_id')
     courses_unseen_df = post_process_to_df(test_unseen_df, y_courses_unseen_pred, col='course_id')
-    topics_seen_df = post_process_to_df(test_seen_df, y_topics_seen_pred, col='subgroup')
-    topics_unseen_df = post_process_to_df(test_unseen_df, y_topics_unseen_pred, col='subgroup')
+    # topics_seen_df = post_process_to_df(test_seen_df, y_topics_seen_pred, col='subgroup')
+    # topics_unseen_df = post_process_to_df(test_unseen_df, y_topics_unseen_pred, col='subgroup')
 
     ################## File output ##################
     if args.mode == 'test':
         cache_dir = args.out_dir
     courses_seen_df.to_csv(
-        os.path.join(cache_dir, 'log_reg_pred_seen_course.csv'), 
+        os.path.join(args.out_dir, 'log_reg_pred_seen_course.csv'), 
         index=False
         )
 
     courses_unseen_df.to_csv(
-        os.path.join(cache_dir, 'log_reg_pred_unseen_couse.csv'), 
+        os.path.join(args.out_dir, 'log_reg_pred_unseen_course.csv'), 
         index=False
         )
 
@@ -516,11 +524,14 @@ def main(args):
     #     index=False
     #     )
 
-    with open(os.path.join(cache_dir, 'log_reg_course_user_prob_dict.pkl'), 'wb') as f:
+    with open(os.path.join(args.out_dir, 'lg_course_score.dict.pkl'), 'wb') as f:
         pickle.dump(user_dict, f)
     ################################################
+    print("Finish course prediction")
+
 
 if __name__ == '__main__':
     args = parse_args()
-    args.cache_dir.mkdir(parents=True, exist_ok=True)
+    if args.mode == 'train':
+        args.experiment_dir.mkdir(parents=True, exist_ok=True)
     main(args)

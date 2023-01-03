@@ -7,11 +7,7 @@ import fasttext
 import fasttext.util
 
 def load_ft_model(ft_path):
-    # fasttext.util.download_model('zh', if_exists='ignore')
-    try:
-        ft = fasttext.load_model(ft_path)
-    except:
-        ft = fasttext.load_model('./logistic_regression/FastText/cc.zh.300.bin')
+    ft = fasttext.load_model(str(ft_path))
     return ft
 
 def create_gender_embbeding(user_df):
