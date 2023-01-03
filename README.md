@@ -47,6 +47,7 @@ conda env create -f env_logistic_regression.yml
 ```bash
 # TODO: add everyone's download bash file
 bash log_reg_download.sh
+bash lgn_download.sh
 ```
 
 ## Directory layout
@@ -56,10 +57,11 @@ bash log_reg_download.sh
 ## Reproduce best result of each competition
 ```bash
 conda activate logistic_regression && bash logistic_regression.bash
+conda activate lightGCN && bash lgn.sh
 # TODO: 
 # bash light_GCN.bash
 # bash ALS.bash
-# bash ensemble.bas
+# bash ensemble.bash
 ```
 
 ## Reproduce training and inference stage of each model 
