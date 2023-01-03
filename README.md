@@ -59,17 +59,35 @@ conda activate logistic_regression && bash logistic_regression.bash
 # TODO: 
 # bash light_GCN.bash
 # bash ALS.bash
-# bash ensemble.bash
-# upload code
+# bash ensemble.bas
 ```
 
-
-## Reproduce inference of each model
+## Reproduce training and inference stage of each model 
+### ALS
 ```bash
 # TODO:
 
 ```
-## Reproduce training of each model 
+
+### Light GCN
+```bash
+# TODO:
+
+```
+
+### logistic regression (one-hot)
+```bash
+# TODO:
+
+```
+
+### logistic regression 
+```bash
+# TODO:
+
+```
+
+### Matrix factorization
 ```bash
 # TODO:
 
