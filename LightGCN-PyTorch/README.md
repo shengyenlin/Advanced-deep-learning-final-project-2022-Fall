@@ -1,15 +1,30 @@
 
 ## LightGCN-pytorch
-
-### Train
+### Reproduce
+#### Download
 
 ```bash
 cd code
-./run_train.sh # train for course
-./run_train_g.sh # train for group 
+./download_sbert.sh
 ```
 
-### Pred
+#### Train
+
+```bash
+cd code
+./run_seen_course_train.sh
+./run_unseen_course_train_sbert.sh
+./run_seen_group_train.sh
+./run_unseen_group_train_sbert.sh
+```
+
+#### Assemble score
+
+```bash
+./run_hahow_all_assemble_score.sh
+```
+
+### Prediction
 Note that you need to change the dataset & hyperparms, respectively for **course** & **group**.
 ```bash
 cd code
