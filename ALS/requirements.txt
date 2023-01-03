@@ -2,4 +2,4 @@ pandas == 1.5.2
 numpy == 1.23.5  
 scipy == 1.9.3  
 implicit ==  0.6.2
-torch
+torch == 1.12.1
