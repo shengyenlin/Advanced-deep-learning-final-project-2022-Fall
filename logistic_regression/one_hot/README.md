@@ -16,7 +16,8 @@ Please put the data files in the folders below:
             |- utils.py
             |- run.sh
             |- data
-
+            
+        |- ...
     |- ...
 ```
 
