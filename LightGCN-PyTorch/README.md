@@ -1,5 +1,10 @@
 
 ## LightGCN-pytorch
+### Environment
+Please make sure `python == 3.7` then run:
+```bash
+pip install -r requirements.txt
+```
 ### Reproduce
 #### Download
 Download embeddings encoded by Sbert.
