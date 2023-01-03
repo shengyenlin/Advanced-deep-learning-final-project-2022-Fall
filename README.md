@@ -37,34 +37,38 @@ Metric: public seen / unseen mapk@50
 
 ## Environment
 
+```bash
+# TODO: set up common environment
+```
+
 ## Downlaod files
 
 ```bash
-# data
-# preprocessing things
+# TODO: add everyone's download bash file
 ```
 
 ## Directory layout
 
+
+
 ## Reproduce best result of each competition
 ```bash
-bash logistic_regression_inference.bash # -> dictionary to ./ensemble
-bash light_GCN_inference.bash
-bash ensemble.bash
+# TODO:
+# bash logistic_regression.bash 
+# bash light_GCN.bash
+# bash ensemble.bash
 ```
 
 
 ## Reproduce inference of each model
 ```bash
-bash logistic_regression.bash # -> dictionary to ./ensemble
+# TODO:
 
 ```
 ## Reproduce training of each model 
-
-### Logistic regression
 ```bash
-bash log_reg_topic.bash # reproduce topic prediction using logistic regression
-bash log_reg_course.bash # reproduce course prediction using logistic regression
+# TODO:
+
 ```
 
 ## Shared data
