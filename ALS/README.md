@@ -13,4 +13,4 @@ Put the mapping dictionary in ../utils/remap/
 `bash run_ALS_dict.sh $1 $2`
 
 **$1: Path to train data.**(e.g., ./hahow/data/train/train.csv)  
-**$2: Path to generate dictionary**(e.g., ensemble/data/als_course_score.dict.pkl)  
+**$2: Path to generate dictionary**(e.g., ../ensemble/data/als_course_score.dict.pkl)  
