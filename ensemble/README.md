@@ -62,9 +62,9 @@ python main.py \
 
 ## Reproduce (best kaggle public score)
 This will generate 3 csv files: 
-    - `lgn0.025_als0.95_lg0.025_seen.csv` is for seen course competition.
-    - `lgn0_als0.5_lg0.5_seen.csv` is for unseen course competition.
-    - `lgn0.4_lg0.6_seen.csv` is for seen topic competition.
+- `lgn0.025_als0.95_lg0.025_seen.csv` is for seen course competition.
+- `lgn0_als0.5_lg0.5_seen.csv` is for unseen course competition.
+- `lgn0.4_lg0.6_seen.csv` is for seen topic competition.
 
 ```
 bash run.sh
