@@ -2,4 +2,8 @@ hahow.zip
 cc.zh.300.bin
 cc.zh.300.bin.gz
 embeds
-*test*
+logistic_regression/cache/*
+logistic_regression/best_models/*
+NN/*
+*.joblib
+*.pkl
