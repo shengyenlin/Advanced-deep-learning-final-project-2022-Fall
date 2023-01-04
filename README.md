@@ -62,7 +62,7 @@ conda activate logistic_regression && bash logistic_regression.bash
 conda activate lightGCN && bash lgn.sh
 # TODO: 
 # bash ALS.bash
-# bash ensemble.bash
+bash ensemble.sh
 ```
 
 ## Reproduce training and inference stage of each model 
