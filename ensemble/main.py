@@ -1,4 +1,5 @@
 import argparse
+import os
 import numpy as np
 import pandas as pd
 
@@ -21,6 +22,8 @@ if __name__ == '__main__':
     args = parse_args()
     print(args)
 
+    if not os.path.exists(f'{args.save_path}'):
+        os.makedirs(f'{args.save_path}')
 
     if args.task == 'course':
         # load data
