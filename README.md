@@ -75,7 +75,7 @@ bash ensemble.sh
 ### Light GCN
 ```bash
 # For more details, check `README.md` under `LightGCN-PyTorch`
-bash lgn_reproduce.sh
+conda activate lightGCN && bash lgn_reproduce.sh
 ```
 
 ### logistic regression (one-hot)
