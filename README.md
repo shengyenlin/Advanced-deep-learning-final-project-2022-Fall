@@ -73,6 +73,7 @@ conda activate lightGCN && bash lgn.sh
 
 ### Light GCN
 ```bash
+# For more details, check `README.md` under `LightGCN-PyTorch`
 bash lgn_reproduce.sh
 ```
 
