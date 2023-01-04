@@ -8,6 +8,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Ensemble method')
     parser.add_argument('--task', type=str, default='course', help='course or topic (subgroup)')
     parser.add_argument('--seen', action='store_true')
+    parser.add_argument('--save_path', type=str, default='./', help='save path')
     parser.add_argument('--lgn_weight', type=float, help='weight of LightGCN')
     parser.add_argument('--als_weight', type=float, help='weight of ALS')
     parser.add_argument('--lg_weight', type=float,  help='weight of Logistic Regression')
@@ -60,10 +61,10 @@ if __name__ == '__main__':
 
         # save data
         if args.seen:
-            pd.DataFrame(ensemble_course).to_csv(f'./lgn{args.lgn_weight}_als{args.als_weight}_lg{args.lg_weight}_seen.csv', index=False)
+            pd.DataFrame(ensemble_course).to_csv(f'{args.save_path}lgn{args.lgn_weight}_als{args.als_weight}_lg{args.lg_weight}_seen.csv', index=False)
             print('Create seen course predict data successfully')
         else:
-            pd.DataFrame(ensemble_course).to_csv(f'./lgn{args.lgn_weight}_als{args.als_weight}_lg{args.lg_weight}_unseen.csv', index=False)
+            pd.DataFrame(ensemble_course).to_csv(f'{args.save_path}lgn{args.lgn_weight}_als{args.als_weight}_lg{args.lg_weight}_unseen.csv', index=False)
             print('Create unseen course predict data successfully')
 
     elif args.task == 'topic':
@@ -99,10 +100,10 @@ if __name__ == '__main__':
 
         # save data
         if args.seen:
-            pd.DataFrame(ensemble_group).to_csv(f'./lgn{args.lgn_weight}_lg{args.lg_weight}_seen_topic.csv', index=False)
+            pd.DataFrame(ensemble_group).to_csv(f'{args.save_path}lgn{args.lgn_weight}_lg{args.lg_weight}_seen_topic.csv', index=False)
             print('Create seen topic predict data successfully')
         else:
-            pd.DataFrame(ensemble_group).to_csv(f'./lgn{args.lgn_weight}_lg{args.lg_weight}_unseen_topic.csv', index=False)
+            pd.DataFrame(ensemble_group).to_csv(f'{args.save_path}lgn{args.lgn_weight}_lg{args.lg_weight}_unseen_topic.csv', index=False)
             print('Create unseen topic predict data successfully')
 
     else:
