@@ -61,16 +61,14 @@ bash lgn_download.sh
 ```bash
 conda activate logistic_regression && bash logistic_regression.bash
 conda activate lightGCN && bash lgn.sh
-# TODO: 
-# bash ALS.bash
+conda activate als && bash als.sh
 bash ensemble.sh
 ```
 
 ## Reproduce training and inference stage of each model 
 ### ALS
 ```bash
-# TODO:
-
+conda activate als && bash als_reproduce.sh
 ```
 
 ### Light GCN
