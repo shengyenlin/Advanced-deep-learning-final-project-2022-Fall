@@ -41,6 +41,7 @@ Metric: public seen / unseen mapk@50
 # TODO: set up environment for each model
 conda env create -f env_logistic_regression.yml
 conda env create -f env_lgn.yml
+conda env create -f env_mf.yml
 ```
 
 ## Downlaod files
@@ -90,5 +91,6 @@ lg_onehot_reproduce.sh
 
 ### Matrix factorization
 ```bash
+conda activate MF
 bash mf_reproduce.sh
 ```
