@@ -73,7 +73,7 @@ conda activate lightGCN && bash lgn.sh
 
 ### Light GCN
 ```bash
-lgn_reproduce.sh
+bash lgn_reproduce.sh
 ```
 
 ### logistic regression (one-hot)
