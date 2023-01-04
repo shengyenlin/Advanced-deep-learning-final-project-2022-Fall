@@ -79,8 +79,7 @@ bash lgn_reproduce.sh
 
 ### logistic regression (one-hot)
 ```bash
-# TODO:
-
+lg_onehot_reproduce.sh
 ```
 
 ### logistic regression 
@@ -91,6 +90,5 @@ bash lgn_reproduce.sh
 
 ### Matrix factorization
 ```bash
-# TODO:
-
+bash mf_reproduce.sh
 ```
