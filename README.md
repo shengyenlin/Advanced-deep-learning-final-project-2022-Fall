@@ -40,6 +40,7 @@ Metric: public seen / unseen mapk@50
 ```bash
 # TODO: set up environment for each model
 conda env create -f env_logistic_regression.yml
+conda env create -f env_lgn.yml
 ```
 
 ## Downlaod files
@@ -59,7 +60,6 @@ bash lgn_download.sh
 conda activate logistic_regression && bash logistic_regression.bash
 conda activate lightGCN && bash lgn.sh
 # TODO: 
-# bash light_GCN.bash
 # bash ALS.bash
 # bash ensemble.bash
 ```
@@ -73,8 +73,7 @@ conda activate lightGCN && bash lgn.sh
 
 ### Light GCN
 ```bash
-# TODO:
-
+lgn_reproduce.sh
 ```
 
 ### logistic regression (one-hot)
