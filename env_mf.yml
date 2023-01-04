@@ -1,4 +1,4 @@
-name: adl-final-r
+name: MF
 channels:
   - defaults
 dependencies:
