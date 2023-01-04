@@ -42,6 +42,7 @@ Metric: public seen / unseen mapk@50
 conda env create -f env_logistic_regression.yml
 conda env create -f env_lgn.yml
 conda env create -f env_mf.yml
+conda env create -f als_mf.yml
 ```
 
 ## Downlaod files
