@@ -9,7 +9,8 @@ python3 logistic_regression/topic_prediction.py \
     --cos_sim_interaction \
     --normalize_feature \
     --cache_dir ./logistic_regression/cache \
-    --out_dir ./ensemble/data
+    --ensemble_dir ./ensemble/data
+    --pred_dir ./prediction/
     # --normalize_pred_prob
     # --impute_knn \
     # --neighbor_for_impute 10 \
@@ -25,7 +26,8 @@ python3 logistic_regression/course_prediction.py \
     --cos_sim_interaction \
     --normalize_feature \
     --cache_dir ./logistic_regression/cache \
-    --out_dir ./ensemble/data
+    --ensemble_dir ./ensemble/data
+    --pred_dir ./prediction/
     # --normalize_pred_prob
     # --impute_knn \
     # --neighbor_for_impute 10 \
