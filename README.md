@@ -38,7 +38,6 @@ Metric: public seen / unseen mapk@50
 ## Environment
 
 ```bash
-# TODO: set up environment for each model
 conda env create -f env_logistic_regression.yml
 conda env create -f env_lgn.yml
 conda env create -f env_mf.yml
@@ -48,14 +47,40 @@ conda env create -f env_als.yml
 ## Downlaod files
 
 ```bash
-# TODO: add everyone's download bash file
 bash log_reg_download.sh
 bash lgn_download.sh
 ```
 
 ## Directory layout
-
-
+```
+ADL_FinalProject/ 
+┣ ALS/
+┣ LightGCN-PyTorch/ 
+┣ MF/  
+┣ ensemble/ 
+┣ hahow/
+┣ logistic_regression/
+┣ notebooks/
+┣ prediction/
+┣ utils/
+┣ .gitignore
+┣ README.md
+┣ als.sh
+┣ als_reproduce.sh
+┣ ensemble.sh
+┣ env_als.yml
+┣ env_lgn.yml
+┣ env_logistic_regression.yml
+┣ env_mf.yml
+┣ lg_onehot_reproduce.sh
+┣ lgn.sh
+┣ lgn_download.sh
+┣ lgn_reproduce.sh
+┣ log_reg_download.bash
+┣ log_reg_reproduce.sh
+┣ logistic_regression.bash
+┗ mf_reproduce.sh
+```
 
 ## Reproduce best result of each competition
 ```bash
@@ -63,6 +88,11 @@ conda activate logistic_regression && bash logistic_regression.bash
 conda activate lightGCN && bash lgn.sh
 conda activate als && bash als.sh
 bash ensemble.sh
+
+kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-topic-prediction -f ./prediction/log_reg_pred_unseen_topic.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-seen-user-topic-prediction -f ./prediction/lgn0.4_lg0.6_seen_topic.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-course-prediction -f ./prediction/lgn0.0_als0.5_lg0.5_unseen.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-seen-user-course-prediction -f ./prediction/lgn0.025_als0.95_lg0.025_seen.csv -m "Message"
 ```
 
 ## Reproduce training and inference stage of each model 
@@ -79,13 +109,14 @@ conda activate lightGCN && bash lgn_reproduce.sh
 
 ### logistic regression (one-hot)
 ```bash
-lg_onehot_reproduce.sh
+conda activate logistic_regression
+bash lg_onehot_reproduce.sh
 ```
 
 ### logistic regression 
 ```bash
-# TODO:
-
+conda activate logistic_regression
+bash log_reg_reproduce.sh
 ```
 
 ### Matrix factorization
