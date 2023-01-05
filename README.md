@@ -100,7 +100,7 @@ kaggle competitions submit -c 2022-adl-final-hahow-seen-user-course-prediction -
 conda activate logistic_regression && bash logistic_regression.sh
 conda activate lightGCN && bash lgn.sh
 conda activate als && bash als.sh
-bash ensemble.sh
+conda activate logistic_regression && bash ensemble.sh
 
 kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-topic-prediction -f ./prediction/log_reg_pred_unseen_topic.csv -m "Message"
 kaggle competitions submit -c 2022-adl-final-hahow-seen-user-topic-prediction -f ./prediction/lgn0.4_lg0.6_seen_topic.csv -m "Message"
