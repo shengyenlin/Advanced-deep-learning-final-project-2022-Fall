@@ -49,6 +49,7 @@ conda env create -f env_als.yml
 ```bash
 bash log_reg_download.sh
 bash lgn_download.sh
+bash als_download.sh
 ```
 
 ## Directory layout
