@@ -22,20 +22,23 @@ from traditional_method.postprocess import process_pred_int_arr_to_str_arr_cours
 from traditional_method.metrics import mapk
 from traditional_method.utils import compute_cos_sim
 
+import os
+print(os.getcwd())
+
 RANDOM_SEED = 1234
 TOP_K = 50
 LABEL_COLUMN = 'course_id'
-SUBGROUP_ID_TO_NAME_PATH = './hahow/data/subgroups.csv'
-JSON_PATH = './utils/remap/courseid2subgroup.json'
+# SUBGROUP_ID_TO_NAME_PATH = '../hahow/data/subgroups.csv'
+# JSON_PATH = '../utils/remap/courseid2subgroup.json'
 
-############ load mapping ############
-subgroup_df = pd.read_csv(SUBGROUP_ID_TO_NAME_PATH)
-subgroupname2id = \
-    dict(zip(subgroup_df['subgroup_name'], subgroup_df['subgroup_id']))
-with open(JSON_PATH, 'r') as f:
-    courseid2subgroup = json.load(f)
-f.close()
-######################################
+# ############ load mapping ############
+# subgroup_df = pd.read_csv(SUBGROUP_ID_TO_NAME_PATH)
+# subgroupname2id = \
+#     dict(zip(subgroup_df['subgroup_name'], subgroup_df['subgroup_id']))
+# with open(JSON_PATH, 'r') as f:
+#     courseid2subgroup = json.load(f)
+# f.close()
+# ######################################
 
 def parse_args() -> Namespace:
     parser = ArgumentParser()
@@ -73,7 +76,8 @@ def parse_args() -> Namespace:
 
     # inference settings
     parser.add_argument("--cache_dir", type=Path)
-    parser.add_argument("--out_dir", type=Path, help="output directory during testing")
+    parser.add_argument("--ensemble_dir", type=Path, help="ensemble directory")
+    parser.add_argument("--pred_dir", type=Path, help="final prediction directory")
     parser.add_argument("--ft_path", type=Path, help="path to FastText bin")
 
     # data
@@ -159,6 +163,18 @@ def main(args):
     if args.mode == 'train':
         experiment_dir = args.experiment_dir / 'course' / str(date) / str(run_id)
         Path(experiment_dir).mkdir(parents=True, exist_ok=True)
+
+    SUBGROUP_ID_TO_NAME_PATH = args.data_dir / 'subgroups.csv'
+    JSON_PATH = args.map_dir / 'courseid2subgroup.json'
+
+    ############ load mapping ############
+    subgroup_df = pd.read_csv(SUBGROUP_ID_TO_NAME_PATH)
+    subgroupname2id = \
+        dict(zip(subgroup_df['subgroup_name'], subgroup_df['subgroup_id']))
+    with open(JSON_PATH, 'r') as f:
+        courseid2subgroup = json.load(f)
+    f.close()
+    ######################################
 
 
     # read user info
@@ -502,15 +518,13 @@ def main(args):
     # topics_unseen_df = post_process_to_df(test_unseen_df, y_topics_unseen_pred, col='subgroup')
 
     ################## File output ##################
-    if args.mode == 'test':
-        cache_dir = args.out_dir
     courses_seen_df.to_csv(
-        os.path.join(args.out_dir, 'log_reg_pred_seen_course.csv'), 
+        os.path.join(args.pred_dir, 'log_reg_pred_seen_course.csv'), 
         index=False
         )
 
     courses_unseen_df.to_csv(
-        os.path.join(args.out_dir, 'log_reg_pred_unseen_course.csv'), 
+        os.path.join(args.pred_dir, 'log_reg_pred_unseen_course.csv'), 
         index=False
         )
 
@@ -524,7 +538,7 @@ def main(args):
     #     index=False
     #     )
 
-    with open(os.path.join(args.out_dir, 'lg_course_score.dict.pkl'), 'wb') as f:
+    with open(os.path.join(args.ensemble_dir, 'lg_course_score.dict.pkl'), 'wb') as f:
         pickle.dump(user_dict, f)
     ################################################
     print("Finish course prediction")

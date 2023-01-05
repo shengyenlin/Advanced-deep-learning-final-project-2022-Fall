@@ -61,7 +61,8 @@ def parse_args() -> Namespace:
     parser.add_argument("--cache_dir", type=Path)
     parser.add_argument("--seen_model_path", type=Path)
     parser.add_argument("--unseen_model_path", type=Path)
-    parser.add_argument("--out_dir", type=Path, help="output directory during testing")
+    parser.add_argument("--ensemble_dir", type=Path, help="ensemble directory")
+    parser.add_argument("--pred_dir", type=Path, help="final prediction directory")
     parser.add_argument("--ft_path", type=Path, help="path to FastText bin")
     
     # data
@@ -459,16 +460,16 @@ def main(args):
 
     ################## File output ######################
     seen_df.to_csv(
-        os.path.join(args.out_dir, 'log_reg_pred_seen_topic.csv'), 
+        os.path.join(args.pred_dir, 'log_reg_pred_seen_topic.csv'), 
         index=False
         )
 
     unseen_df.to_csv(
-        os.path.join(args.out_dir, 'log_reg_pred_unseen_topic.csv'), 
+        os.path.join(args.pred_dir, 'log_reg_pred_unseen_topic.csv'), 
         index=False
         )
 
-    with open(os.path.join(args.out_dir, 'lg_group_score.dict.pkl'), 'wb') as f:
+    with open(os.path.join(args.ensemble_dir, 'lg_group_score.dict.pkl'), 'wb') as f:
         pickle.dump(user_dict, f)
     ###################################################
     print("Finish topic prediction")
