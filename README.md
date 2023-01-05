@@ -17,7 +17,7 @@ Metric: public seen / unseen mapk@50
 |         UIF         |                          -                          |        -        |                         -                         |
 |         MF          |                   0.0271 / 0.0238                   |        -        |                         -                         |
 |         ALS         |                       0.0790                        |        -        |                         -                         |
-|      Light GCN      |                   0.2706 / 0.0952                   |        -        |                  0.2289 / 0.2346                  |
+|      Light GCN      |                   0.2706 / 0.0952                   |        -        |                  0.2289 / 0.2369                  |
 | Logistic regression |                   0.0006 / 0.0005                   | 0.2717 / 0.2733 | 0.277 / <span style="color:red">**0.3104**</span> |
 |      Ensemble       | <span style="color:red">**0.2812** </span> / 0.2347 |                 |                                                   |
 
@@ -31,7 +31,7 @@ Metric: public seen / unseen mapk@50
 |         MF          |                         0.0373 / 0.0281                         |        -        |                 -                 |
 |         LMF         |                             0.0143                              |        -        |                 -                 |
 |         ALS         |                             0.0476                              |        -        |                 -                 |
-|      Light GCN      |                             0.03894                             |        -        |                 -                 |
+|      Light GCN      |                             0.03894                             |        -        |          0.0372 / 0.0670          |
 | Logistic regression |                         0.0389 / 0.0170                         | 0.0465 / 0.0651 |         0.04664 / 0.09154         |
 |      Ensemble       | <span style="color:red"> **0.05856 / 0.09173**          </span> |                 |                                   |
 
@@ -47,6 +47,7 @@ conda env create -f env_als.yml
 ## Downlaod files
 
 ```bash
+conda activate logistic_regression
 bash log_reg_download.sh
 bash lgn_download.sh
 bash als_download.sh
@@ -83,7 +84,18 @@ ADL_FinalProject/
 ┗ mf_reproduce.sh
 ```
 
-## Reproduce best result of each competition
+## Reproduce ensemble
+```bash
+conda activate logistic_regression
+bash ensemble.sh
+
+kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-topic-prediction -f ./prediction/log_reg_pred_unseen_topic.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-seen-user-topic-prediction -f ./prediction/lgn0.4_lg0.6_seen_topic.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-course-prediction -f ./prediction/lgn0.0_als0.5_lg0.5_unseen.csv -m "Message"
+kaggle competitions submit -c 2022-adl-final-hahow-seen-user-course-prediction -f ./prediction/lgn0.025_als0.95_lg0.025_seen.csv -m "Message"
+```
+
+## Reproduce ensemble models and ensemble
 ```bash
 conda activate logistic_regression && bash logistic_regression.sh
 conda activate lightGCN && bash lgn.sh

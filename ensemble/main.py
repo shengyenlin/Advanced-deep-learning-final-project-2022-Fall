@@ -28,10 +28,10 @@ if __name__ == '__main__':
     if args.task == 'course':
         # load data
         if args.seen:
-            test = pd.read_csv('../hahow/data/test_seen.csv').user_id.to_numpy()
+            test = pd.read_csv('./hahow/data/test/test_seen.csv').user_id.to_numpy()
         else:
-            test = pd.read_csv('../hahow/data/test_unseen.csv').user_id.to_numpy()
-        course_list = pd.read_csv('../hahow/data/courses.csv').course_id.to_numpy()
+            test = pd.read_csv('./hahow/data/test/test_unseen.csv').user_id.to_numpy()
+        course_list = pd.read_csv('./hahow/data/courses.csv').course_id.to_numpy()
 
         lgn_course_score = load('./data/lgn_course_score.dict.pkl')
         als_course_score = load('./data/als_course_score.dict.pkl')
@@ -73,9 +73,9 @@ if __name__ == '__main__':
     elif args.task == 'topic':
         # load data
         if args.seen:
-            test = pd.read_csv('../hahow/data/test_seen_group.csv').user_id.to_numpy()
+            test = pd.read_csv('../hahow/data/test/test_seen_group.csv').user_id.to_numpy()
         else:
-            test = pd.read_csv('../hahow/data/test_unseen_group.csv').user_id.to_numpy()
+            test = pd.read_csv('../hahow/data/test/test_unseen_group.csv').user_id.to_numpy()
         group_list = pd.read_csv('../hahow/data/subgroups.csv').subgroup_id.to_numpy()
 
         lgn_group_score = load('./data/lgn_group_score.dict.pkl')

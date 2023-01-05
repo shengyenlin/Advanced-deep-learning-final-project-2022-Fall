@@ -6,4 +6,5 @@ unzip cache.zip -d logistic_regression
 cd logistic_regression && \
     mkdir FastText && \
     cd FastText && \
+    conda activate logistic_regression && \
     python -c "import fasttext.util; fasttext.util.download_model('zh', if_exists='ignore')"
