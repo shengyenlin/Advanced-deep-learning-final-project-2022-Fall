@@ -76,15 +76,15 @@ ADL_FinalProject/
 ┣ lgn.sh
 ┣ lgn_download.sh
 ┣ lgn_reproduce.sh
-┣ log_reg_download.bash
+┣ log_reg_download.sh
 ┣ log_reg_reproduce.sh
-┣ logistic_regression.bash
+┣ logistic_regression.sh
 ┗ mf_reproduce.sh
 ```
 
 ## Reproduce best result of each competition
 ```bash
-conda activate logistic_regression && bash logistic_regression.bash
+conda activate logistic_regression && bash logistic_regression.sh
 conda activate lightGCN && bash lgn.sh
 conda activate als && bash als.sh
 bash ensemble.sh
