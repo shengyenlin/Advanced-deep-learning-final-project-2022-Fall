@@ -86,7 +86,6 @@ ADL_FinalProject/
 
 ## Reproduce ensemble
 ```bash
-conda activate logistic_regression
 bash ensemble.sh
 
 kaggle competitions submit -c 2022-adl-final-hahow-unseen-user-topic-prediction -f ./prediction/log_reg_pred_unseen_topic.csv -m "Message"
