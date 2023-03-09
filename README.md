@@ -1,12 +1,36 @@
-# Advanced Deep Learning Final Project
-- Topic: hahow user purchase prediction
+# Advanced Deep Learning Final Project - hahow user purchase prediction
 - Team 26: RegressionIsAllYouNeed
-
 - Team member
   - 資料科學碩一 李姵徵
   - 資工AI碩一 柳宇澤
-  - 資工AI碩一 林聖硯
+  - 資工AI碩一 林聖硯 Sheng-Yen Lin
   - 網媒所碩一 何俞彥
+
+## Competition description
+[Hahow](https://hahow.in/) is a Taiwanese online learning platform where you can purchase several courses that can help you build your future career skills. In this competition, we aim to use the historical purchase data of the website's members to predict which courses and course categories both current and new (cold-start) users are likely to buy.
+
+## Competition result
+- Oral presentation score: 9.7/10 (Ranked **1st** among all **61** teams)
+- Report score: 20.5/26 (average=19.35)
+
+Kaggle rank (Public / Private)
+| [Unseen Topic](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-topic-prediction/leaderboard?tab=public)  |                     [Seen Topic](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-topic-prediction/team)                    |   [Unseen Course](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-course-prediction/leaderboard) |         [Seen Course](https://www.kaggle.com/competitions/2022-adl-final-hahow-seen-user-course-prediction/submissions)         |
+| :-----------------: | :-------------------------------------------------: | :-------------: | :-----------------------------------------------: |
+|        23/21    |                   26/33                   |        28/26        |                         37/36                         |
+
+
+## Brief intro to our findings
+
+We used various recommendation methods for predicting user future purchase, including naive methods, traditional statistical methods, and deep learning methods. 
+
+- Naive methods lack granularity but can serve as a baseline for comparison, while logistic regression performs well even with only user text information. initialized embeddings may be affected during updates for seen users. 
+- The logistic regression model performs well on all recommendation tasks and incorporating user and course/topic interactions into the model significantly improves performance
+- For deep learning methods, using deeper aggregation layers improves performance for sparser datasets, and initializing user and item embedding with sentence-bert vector helps with recommendations for **unseen users**. However, initialized embeddings may be affected during updates for **seen users**.
+- An ensemble method combining regression, ALS, and LightGCN improves overall performance.
+
+**Fr detailed experiment results, observations and our findings, please refer to `report.pdf`, and our [oral presentation](https://www.youtube.com/watch?v=UpOfI-Bp6pc).**
+
+---
 
 ## Topic predicion performance table
 
