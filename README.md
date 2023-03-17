@@ -10,8 +10,8 @@
 [Hahow](https://hahow.in/) is a Taiwanese online learning platform where you can purchase several courses that can help you build your future career skills. In this competition, we aim to use the historical purchase data of the website's members to predict which courses and course categories both current and new (cold-start) users are likely to buy.
 
 ## Competition result
-- Oral presentation score: 9.7/10 (Ranked **1st** among all **61** teams)
-- Report score: 20.5/26 (average=19.35)
+- Oral presentation score: 9.7 / 10 (Ranked **1st** among all **61** teams)
+- Report score: 20.5 / 26 (average=19.35)
 
 Kaggle rank (Public / Private)
 | [Unseen Topic](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-topic-prediction/leaderboard?tab=public)  |                     [Seen Topic](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-topic-prediction/team)                    |   [Unseen Course](https://www.kaggle.com/competitions/2022-adl-final-hahow-unseen-user-course-prediction/leaderboard) |         [Seen Course](https://www.kaggle.com/competitions/2022-adl-final-hahow-seen-user-course-prediction/submissions)         |
